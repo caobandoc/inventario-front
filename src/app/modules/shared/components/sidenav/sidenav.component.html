@@ -1,3 +1,23 @@
-<p>sidenav works!</p>
+<div class="dashboard-container">
+    <mat-toolbar color="primary">
+        <button mat-icon-button>
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>S-Inventory</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button>
+            <mat-icon>help_outline</mat-icon>
+        </button>
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>person_outline</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>exit_to_app</mat-icon>
+                Cerrar Sesión
+            </button>
+        </mat-menu>
+    </mat-toolbar>
 
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>
+</div>
