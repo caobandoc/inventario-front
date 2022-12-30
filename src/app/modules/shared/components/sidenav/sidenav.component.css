@@ -8,6 +8,32 @@
     right: 0;
 }
 
+.is-mobile .dashboard-toolabr {
+    position: fixed;
+    z-index: 2;
+}
+
 .example-spacer {
     flex: 1 1 auto;
+}
+
+.sidenav-container{
+    flex: 1;   
+}
+
+.is-mobile .sidenav-container{
+    flex: 1 0 auto;
+}
+
+.profile-card{
+    text-align: center;
+    padding: 0 20px 20px 20px;
+}
+
+.header{
+    margin-top: 20px;
+}
+
+.icono{
+    margin-right: 10px;
 }
