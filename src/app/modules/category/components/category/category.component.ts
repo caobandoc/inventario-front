@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoryElement } from 'src/app/models/category-element.model';
+import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
 
@@ -30,7 +31,7 @@ export class CategoryComponent implements OnInit {
     this.categoryService.getCategories()
       .subscribe({
         next: data => {
-          console.log("respuesta categorias", data)
+          //console.log("respuesta categorias", data)
           this.processCategoriesResponse(data);
         },
         error: error => console.log("error", error)
@@ -85,6 +86,25 @@ export class CategoryComponent implements OnInit {
           this.getCategories();
         } else if (result == 2) {
           this.openSnackBar("Error al actualizar la categoría", "Error");
+        }
+      });
+  }
+
+  delete(id: string) {
+    const dialogRef = this.dialog.open(ConfirmComponent , {
+      //width: '500px',
+      data: {
+        id: id,
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result == 1) {
+          this.openSnackBar("Categoría eliminada", "Exitosa");
+          this.getCategories();
+        } else if (result == 2) {
+          this.openSnackBar("Error al eliminar la categoría", "Error");
         }
       });
   }
