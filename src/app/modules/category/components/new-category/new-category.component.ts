@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 
 @Component({
@@ -11,15 +11,31 @@ import { CategoryService } from 'src/app/modules/shared/services/category.servic
 export class NewCategoryComponent {
 
   public categoryForm: FormGroup;
+  estadoFormulario: string = "";
+
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private dialogRef: MatDialogRef<NewCategoryComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.categoryForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required]
-    });
+
+    if (data.id != null) {
+      this.estadoFormulario = "Actualizar";
+      this.categoryForm = this.fb.group({
+        name: [data.name, Validators.required],
+        description: [data.description, Validators.required]
+      });
+
+    } else {
+
+      this.estadoFormulario = "Agregar";
+      this.categoryForm = this.fb.group({
+        name: ['', Validators.required],
+        description: ['', Validators.required]
+      });
+    }
+
   }
 
   onSave() {
@@ -28,14 +44,23 @@ export class NewCategoryComponent {
       description: this.categoryForm.get('description')?.value
     }
 
-    this.categoryService.saveCategory(data)
+    if (this.data.id != null) {
+      //update
+      this.categoryService.updateCategory(data, this.data.id)
+        .subscribe({
+          next: () => this.dialogRef.close(1),
+          error: () => this.dialogRef.close(2)
+        });
+    }else{
+      //create
+      this.categoryService.saveCategory(data)
       .subscribe({
-        next: data => {
-          //console.log("respuesta categorias", data)
-          this.dialogRef.close(1);
-        },
-        error: error => this.dialogRef.close(2)
+        next: () => this.dialogRef.close(1),
+        error: () => this.dialogRef.close(2)
       });
+    }
+
+    
 
   }
 
