@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductElement } from 'src/app/models/product-element.model';
+import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 import { ProductService } from '../../shared/services/product.service';
 import { NewProductComponent } from '../new-product/new-product.component';
 
@@ -107,7 +108,39 @@ export class ProductComponent implements OnInit {
   }
 
   delete(id: string) {
-    
+    const dialogRef = this.dialog.open(ConfirmComponent , {
+      //width: '500px',
+      data: {
+        id: id, 
+        module: "product"
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result == 1) {
+          this.openSnackBar("Producto eliminada", "Exitosa");
+          this.getProducts();
+        } else if (result == 2) {
+          this.openSnackBar("Error al eliminar el producto", "Error");
+        }
+      });
+  }
+
+  buscar(termino: string) {
+    if (termino.length == 0) {
+      this.getProducts();
+      return;
+    }
+
+    this.productService.searchProduct(termino)
+      .subscribe({
+        next: resp => {
+          console.log("respuesta de productos: ", resp);
+          this.processProductResponse(resp);
+        },
+        error: error => console.log("error en productos: ", error)
+      });
   }
 
 }

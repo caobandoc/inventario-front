@@ -24,4 +24,12 @@ export class ProductService {
   updateProduct(body: any, id: string) {
     return this.http.put(`${base_url}/products/${id}`, body);
   }
+
+  deleteProduct(id: string) {
+    return this.http.delete(`${base_url}/products/${id}`);
+  }
+
+  searchProduct(term: string) {
+    return this.http.get(`${base_url}/products/filter/${term}`);
+  }
 }

@@ -4,7 +4,7 @@
         <div>
             <mat-form-field hintLabel="Busque producto" appearance="fill">
                 <mat-label>Buscar Producto</mat-label>
-                <input matInput #input>
+                <input matInput #input (keyup)="buscar(input.value)">
             </mat-form-field>
         </div>
         <span class="spacer"></span>
@@ -14,7 +14,7 @@
     <div mat-card-image></div>
 
     <mat-card-content>
-        <table mat-table [dataSource]="dataSource" class="mat-cell mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" class="mat-cell mat-elevation-z8" aria-describedby="listProducts">
             <!-- id Column -->
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>Id</th>
