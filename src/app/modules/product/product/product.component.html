@@ -8,7 +8,7 @@
             </mat-form-field>
         </div>
         <span class="spacer"></span>
-        <button mat-raised-button color="primary">Agregar Producto</button>
+        <button mat-raised-button color="primary" (click)="openProductDialog()">Agregar Producto</button>
     </mat-card-header>
     
     <div mat-card-image></div>
@@ -42,7 +42,7 @@
             <!-- category Column -->
             <ng-container matColumnDef="category">
                 <th mat-header-cell *matHeaderCellDef>Categoria</th>
-                <td mat-cell *matCellDef="let element"> {{ element.category }}</td>
+                <td mat-cell *matCellDef="let element"> {{ element.category.name }}</td>
             </ng-container>
 
             <!-- picture Column -->
@@ -55,11 +55,11 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let element; let i=index;">
-                    <button mat-icon-button color="accent">
+                    <button mat-icon-button color="accent" (click)="edit(element)">
                         <mat-icon aria-label="Edit">edit</mat-icon>
                     </button>
 
-                    <button mat-icon-button color="accent" >
+                    <button mat-icon-button color="accent" (click)="delete(element.id)">
                         <mat-icon aria-label="Delete">delete</mat-icon>
                     </button>
                 </td>
