@@ -100,6 +100,7 @@ export class CategoryComponent implements OnInit {
       //width: '500px',
       data: {
         id: id,
+        module: "category"
       }
     });
 
