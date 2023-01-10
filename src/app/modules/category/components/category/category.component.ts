@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CategoryElement } from 'src/app/models/category-element.model';
 import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
+import { UtilService } from 'src/app/modules/shared/services/util.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
 
 @Component({
@@ -14,6 +15,8 @@ import { NewCategoryComponent } from '../new-category/new-category.component';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
+
+  isAdmin: any;
 
   displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
   dataSource = new MatTableDataSource<CategoryElement>();
@@ -24,11 +27,13 @@ export class CategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private utilService: UtilService
   ) { }
 
   ngOnInit(): void {
     this.getCategories();
+    this.isAdmin = this.utilService.isAdmin();
   }
 
   getCategories() {
