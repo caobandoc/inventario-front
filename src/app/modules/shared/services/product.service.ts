@@ -32,4 +32,10 @@ export class ProductService {
   searchProduct(term: string) {
     return this.http.get(`${base_url}/products/filter/${term}`);
   }
+
+  exportProducts() {
+    return this.http.get(`${base_url}/products/export/excel`, {
+      responseType: 'blob'
+    });
+  }
 }
