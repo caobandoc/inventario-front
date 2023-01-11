@@ -55,7 +55,6 @@ export class ProductComponent implements OnInit {
 
       listProduct.forEach((element: ProductElement) => {
         //element.category = element.category.name;
-        element.category = element.category;
         element.picture = 'data:image/jpeg;base64,' + element.picture;
         dataProduct.push(element);
       });
@@ -145,6 +144,26 @@ export class ProductComponent implements OnInit {
           this.processProductResponse(resp);
         },
         error: error => console.log("error en productos: ", error)
+      });
+  }
+
+  exportExcel() {
+    this.productService.exportProducts()
+      .subscribe({
+        next: (data) => {
+          let file = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          let fileURL = URL.createObjectURL(file);
+          let anchor = document.createElement("a");
+          anchor.download = "products.xlsx";
+          anchor.href = fileURL;
+          anchor.click();
+
+          this.openSnackBar("Exportación exitosa", "Exitosa");
+        },
+        error: (error) => {
+          console.log("error", error);
+          this.openSnackBar("Error al exportar", "Error");
+        }
       });
   }
 
